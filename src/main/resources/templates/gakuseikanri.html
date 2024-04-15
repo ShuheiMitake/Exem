@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #f2f2f2;
+            color: #000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: auto;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        #logout {
+            font-size: 12px;
+        }
+        #sidebar {
+            width: 200px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            float: left;
+        }
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            width: 80%;
+            margin: auto;
+            float: right;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input[type="checkbox"] {
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: none; 
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>得点管理システム</h1>
+        <div id="logout">
+            <a href="/logout">ログアウト</a>
+        </div>
+    </header>
+    <div id="content">
+        <div id="sidebar">
+            <ul>
+                <li><a href="/">メニュー</a></li>
+                <li><a href="/gakuseitouroku">新規登録</a></li>
+                
+            </ul>
+        </div>
+        <h2>学生管理</h2>
+        <form id="filterForm">
+            <div>
+                <label for="entYear">入学年度</label>
+                <select name="entYear" id="entYear">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+            <div>
+                <label for="class">クラス</label>
+                <select name="class" id="class">
+                    <option value="101">101</option>
+                    <option value="102">102</option>
+                    <option value="103">103</option>
+                </select>
+            </div>
+            <div>
+                <label for="isAttend">在学中</label>
+                <input type="checkbox" id="isAttend" name="isAttend">
+            </div>
+            <button type="button" id="filterButton" class="btn">絞り込む</button>
+        </form>
+ 
+        <div id="searchResultCount"></div>
+ 
+        <table id="studentTable">
+            <thead>
+                <tr th:each="student : ${students}">
+    <td style="vertical-align: top;" th:text="${student.entYear}"></td>
+    <td style="vertical-align: top;" th:text="${student.no}"></td>   
+    <td style="vertical-align: top;" th:text="${student.name}"></td>
+    <td style="vertical-align: top;" th:text="${student.classNum}"></td>
+    <td style="vertical-align: top;" th:text="${student.isAttend}"></td>                           
+                  
+    <td style="vertical-align: top;">
+        <a th:href="@{/edit/{id}(id=${student.no})}">編集</a>
+    </td>
+    <td style="vertical-align: top;">
+        <a th:href="@{/delete/{id}(id=${student.no})}">消去</a>
+    </td>
+</tr>
+
+            </thead>
+            <tbody>
+             
+                <tr th:each="student : ${students}">
+                    <td style="vertical-align: top;" th:text="${student.entYear}"></td>
+                    <td style="vertical-align: top;" th:text="${student.no}"></td>   
+                    <td style="vertical-align: top;" th:text="${student.name}"></td>
+                    <td style="vertical-align: top;" th:text="${student.classNum}"></td>
+                    <td style="vertical-align: top;" th:text="${student.isAttend}"></td>                           
+                  
+                    <td style="vertical-align: top;">
+                        <a href="/edit/{id}">編集</a>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <a href="/delete/{id}(id=${student.no})">消去</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+ 
